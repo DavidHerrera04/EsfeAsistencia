@@ -1,0 +1,67 @@
+<html lang="en"
+      xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="/layouts/_mainLayout" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<div layout:fragment="content">
+  <!-- Mostrar mensaje de confirmaciones en caso de exito -->
+  <div th:if="${msg != null}">
+    <script>
+      swal.fire({
+      title: "Confirmacion",
+      text: '[[${msg}]]',
+      icon: "success"
+      });
+    </script>
+  </div>
+  <!-- Mostrar mensaje de confirmaciones en caso de error -->
+  <div th:if="${error != null}">
+    <script>
+      swal.fire({
+      title: "Error",
+      text: '[[${msg}]]',
+      icon: "error"
+      });
+    </script>
+  </div>
+
+  <h1>Listado de Docentes</h1>
+  <a th:href="@{/docentes/create}" class="btn btn-outline-primary">Nuevo Docente</a>
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>Id</th>
+      <th>Nombre</th>
+      <th>Apellidos</th>
+      <th>Email</th>
+      <th>Telefono</th>
+      <th>Escuela</th>
+      <th>Acciones</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="item: ${docentes}">
+      <td th:text="${item.id}"></td>
+      <td th:text="${item.nombre}"></td>
+      <td th:text="${item.apellido}"></td>
+      <td th:text="${item.email}"></td>
+      <td th:text="${item.telefono}"></td>
+      <td th:text="${item.escuela}"></td>
+
+      <td>
+        <a th:href="@{/docentes/details/{id} (id=${item.id}) }" class="btn btn-outline-secondary">Detalles</a>
+        <a th:href="@{/docentes/edit/{id} (id=${item.id}) }" class="btn btn-outline-info">Editar</a>
+        <a th:href="@{/docentes/remove/{id} (id=${item.id}) }" class="btn btn-outline-danger">Eliminar</a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <nav aria-label="Page navigation example">
+    <ul class="pagination">
+      <li class="page-item" th:each="pagenumbers : ${pageNumbers}">
+        <a class="page-link" th:href="@{/grupos(page=${pagenumber})}" th:text="${pagenumbers}"></a>
+      </li>
+    </ul>
+  </nav>
+</div>
